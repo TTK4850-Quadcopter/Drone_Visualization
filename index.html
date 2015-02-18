@@ -50,10 +50,18 @@
 
 		// TODO: Change to real data
 		var exampleJSON = " { \"updateID\": 20, \"drones\": [ { \"id\": \"B33F\", \"positions\": [ [ 63, 11 ], [ 64, 12 ] ] }, { \"id\": \"CAFE\", \"positions\": [ [ 62, 13 ], [ 63, 11 ] ] } ] }";
+		function ajax(method, route, async, cb) {
+		  var req = new XMLHttpRequest();
+		  req.onload = cb;
+		  req.open(method, route, async);
+		  req.send();
+		}
 
 		addDroneLocations(exampleJSON);
 		window.setInterval(function(){
-			addDroneLocations(exampleJSON);
+			ajax("GET", "/api", true, function() {
+        addDroneLocations(this.responseText);
+			});
 		}, 1000);
 
 		//ajax("GET", "http://sheep-surveillance.burkow.no/", true, addDroneLocations);
