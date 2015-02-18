@@ -5,6 +5,11 @@ var ajax = function(method, route, async, cb) {
 	req.send();
 }
 
+var textLabel = function(latLng, text) {
+    var marker = L.marker(latLng).bindLabel(text, { noHide: true });
+    return marker;
+}
+
 function hashCode(str) { // java String#hashCode
 	var hash = 0;
 	for (var i = 0; i < str.length; i++) {
@@ -41,7 +46,14 @@ var addDroneLocations = function(droneJSON) {
 		var dronePath = new L.Polyline([], {color: droneColor});
 		for (var droneLocationNum in singleDroneJSON["positions"]) {
 			var droneLocation = singleDroneJSON["positions"][droneLocationNum];
-			dronePath.addLatLng(droneLocation);
+            var latLng = [droneLocation["lat"], droneLocation["lon"]];
+			dronePath.addLatLng(latLng);
+            var locationTime = new Date(droneLocation["timestamp"]);
+            var timeString = locationTime.toLocaleString('en-US', { hour12: false });
+            var marker = textLabel(
+                    latLng, 
+                    droneID + ": " + timeString);
+            marker.addTo(markers);
 		}
 
 		if (dronePath.getLatLngs().length > 0) {

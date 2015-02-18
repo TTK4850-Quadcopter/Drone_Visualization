@@ -4,10 +4,15 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <link rel="stylesheet" href="leaflet-0.7.3/leaflet.css" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="leaflet-0.7.3/leaflet.js"></script>
-    <script src="droneMap.js"></script>
+	<link rel="stylesheet" href="leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="leaflet-0.7.3/leaflet.label.css" />
+    <link rel="stylesheet" href="leaflet-0.7.3/MarkerCluster.css" />
+    <link rel="stylesheet" href="leaflet-0.7.3/MarkerCluster.Default.css" />
+	<link rel="stylesheet" href="style.css" />
+	<script src="leaflet-0.7.3/leaflet.js"></script>
+    <script src="leaflet-0.7.3/leaflet.label.js"></script>
+    <script src="leaflet-0.7.3/leaflet.markercluster-src.js"></script>
+	<script src="droneMap.js"></script>
 </head>
 <body>
     <div id="map"></div>
@@ -15,15 +20,15 @@
     <script>
         var map = L.map('map');
 
-        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-        maxZoom: 25,
-        id: 'examples.map-i875mjb7'
-        }).addTo(map);
-
         function onLocationFound(e) {
             var radius = e.accuracy / 2;
             L.circle(e.latlng, radius).addTo(map);
         }
+
+		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+			maxZoom: 15,
+			id: 'examples.map-i875mjb7'
+		}).addTo(map);
 
         function onLocationError(e) {
             map.fitBounds(droneLocations.getBounds());
@@ -36,6 +41,10 @@
 
         var droneLocations = new L.FeatureGroup();
         var droneLegend = L.control({position: 'topright'});
+        var markers = new L.MarkerClusterGroup(
+                {
+                    spiderfyDistanceMultiplier: 2
+                });
 
         droneLegend.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'info legend');
