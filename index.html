@@ -54,12 +54,12 @@
             req.send();
         }
 
-        addDroneLocations(exampleJSON);
-        window.setInterval(function(){
+        function refresh() {
             ajax("GET", "/api", true, function() {
                 addDroneLocations(this.responseText);
             });
-        }, 1000);
+        }
+        window.setInterval(refresh, 1000);
     </script>
 </body>
 </html>
