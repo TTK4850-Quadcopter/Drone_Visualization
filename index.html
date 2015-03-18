@@ -12,9 +12,11 @@
 	<script src="leaflet-0.7.3/leaflet.js"></script>
     <script src="leaflet-0.7.3/leaflet.label.js"></script>
     <script src="leaflet-0.7.3/leaflet.markercluster-src.js"></script>
+	<script src="randomColor.js"></script>
 	<script src="droneMap.js"></script>
 </head>
 <body>
+
     <div id="map"></div>
 
     <script>
@@ -26,7 +28,7 @@
         }
 
 		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-			maxZoom: 15,
+			maxZoom: 21,
 			id: 'examples.map-i875mjb7'
 		}).addTo(map);
 
@@ -53,6 +55,7 @@
 
         map.addControl(droneLegend);
         map.addLayer(droneLocations);
+        map.addLayer(markers);
 
         var lastUpdateId = -1;
 
@@ -64,7 +67,7 @@
         }
 
         function refresh() {
-            ajax("GET", "/api", true, function() {
+            ajax("GET", "http://sheep-surveillance.burkow.no/api/",true,function() {
                 addDroneLocations(this.responseText);
             });
         }
