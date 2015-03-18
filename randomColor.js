@@ -234,8 +234,19 @@
     } return 'Color not found';
   }
 
+    Math.seed = 42;
+    Math.seededRandom = function() {
+        max = 1;
+        min = 0;
+
+        Math.seed = (Math.seed * 9301 + 49297) % 233280;
+        var rnd = Math.seed / 233280;
+
+        return min + rnd * (max - min);
+    }
+
   function randomWithin (range) {
-    return Math.floor(range[0] + Math.random()*(range[1] + 1 - range[0]));
+    return Math.floor(range[0] + Math.seededRandom()*(range[1] + 1 - range[0]));
   }
 
   function HSVtoHex (hsv){

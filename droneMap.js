@@ -45,7 +45,7 @@ var addDroneLocations = function(droneJSON) {
 
         dronePaths[droneID] = dronePath
 		droneLegend._div.innerHTML += 
-            "<a href=\"#\" onclick=\"map.fitBounds(dronePaths["+droneID+"]);\"><font color=\"" + droneColors[droneID] + "\">"+droneID+"</font></a><br>";
+            "<a href=\"#\" onclick=\"map.fitBounds(dronePaths["+droneID+"]);\"><font color=\"" + droneColors[droneID] + "\">Drone "+droneID+"</font></a><br>";
 		if (dronePath.getLatLngs().length > 0) {
 			droneLocations.addLayer(dronePath);	
 		}
