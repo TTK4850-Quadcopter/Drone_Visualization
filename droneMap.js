@@ -17,6 +17,7 @@ var addDroneLocations = function(droneJSON) {
 	lastUpdateId = droneJSON["updateID"];
 
 	droneLocations.clearLayers();
+    markers.clearLayers();
 	droneLegend._div.innerHTML = "";
 
     dronePaths = []
@@ -24,10 +25,12 @@ var addDroneLocations = function(droneJSON) {
 	for (var droneNum in droneJSON["drones"]) {
 		var singleDroneJSON = droneJSON["drones"][droneNum];
 		var droneID = singleDroneJSON["id"];
-		var droneColor = randomColor( {
-            luminosity: 'dark'
-        });
-		var dronePath = new L.Polyline([], {color: droneColor});
+        if (!(droneID in droneColors)) {
+            droneColors[droneID] = randomColor( {
+                luminosity: 'dark'
+            });
+        }
+		var dronePath = new L.Polyline([], {color: droneColors[droneID]});
 		for (var droneLocationNum in singleDroneJSON["positions"]) {
 			var droneLocation = singleDroneJSON["positions"][droneLocationNum];
             var latLng = [droneLocation["lat"], droneLocation["lon"]];
@@ -42,7 +45,7 @@ var addDroneLocations = function(droneJSON) {
 
         dronePaths[droneID] = dronePath
 		droneLegend._div.innerHTML += 
-            "<a href=\"#\" onclick=\"map.fitBounds(dronePaths["+droneID+"]);\"><font color=\"" + droneColor + "\">"+droneID+"</font></a><br>";
+            "<a href=\"#\" onclick=\"map.fitBounds(dronePaths["+droneID+"]);\"><font color=\"" + droneColors[droneID] + "\">"+droneID+"</font></a><br>";
 		if (dronePath.getLatLngs().length > 0) {
 			droneLocations.addLayer(dronePath);	
 		}

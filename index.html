@@ -41,6 +41,7 @@
 
         map.locate({setView: true, maxZoom: 16});
 
+        var droneColors = []
         var droneLocations = new L.FeatureGroup();
         var droneLegend = L.control({position: 'topright'});
         var markers = new L.MarkerClusterGroup(
@@ -67,7 +68,7 @@
         }
 
         function refresh() {
-            ajax("GET", "http://sheep-surveillance.burkow.no/api/",true,function() {
+            ajax("GET", "../api/test.txt", true, function() {
                 addDroneLocations(this.responseText);
             });
         }
