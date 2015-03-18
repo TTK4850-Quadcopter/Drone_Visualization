@@ -50,5 +50,4 @@ var addDroneLocations = function(droneJSON) {
 			droneLocations.addLayer(dronePath);	
 		}
 	}
-	map.fitBounds(droneLocations.getBounds());
 };
